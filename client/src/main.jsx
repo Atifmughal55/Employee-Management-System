@@ -3,10 +3,10 @@ import "./index.css";
 
 import { RouterProvider } from "react-router-dom";
 import router from "./router";
+import { StrictMode } from "react";
 
 createRoot(document.getElementById("root")).render(
-  <>
-    <h1 className="text-3xl underli">hello</h1>
+  <StrictMode>
     <RouterProvider router={router} />
-  </>
+  </StrictMode>
 );
