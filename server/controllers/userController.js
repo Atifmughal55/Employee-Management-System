@@ -354,6 +354,10 @@ export const verifyForgotPasswordOTP = async (req, res) => {
       });
     }
 
+    const updateUser = await UserModel.findByIdAndUpdate(user._id, {
+      forgot_password_otp: "",
+      forgot_password_expiry: "",
+    });
     return res.status(200).json({
       message: "OTP verified Successfully",
       success: true,
@@ -475,6 +479,34 @@ export const refreshToken = async (req, res) => {
       message: error.message || error,
       success: false,
       error: true,
+    });
+  }
+};
+
+export const userDetails = async (req, res) => {
+  try {
+    const userId = req.userId;
+
+    const user = await UserModel.findById(userId);
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found.",
+        error: true,
+        success: false,
+      });
+    }
+
+    return res.status(200).json({
+      message: "Fetched user details",
+      data: user,
+      error: false,
+      success: true,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message || error,
+      error: true,
+      success: false,
     });
   }
 };

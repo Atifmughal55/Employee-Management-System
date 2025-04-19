@@ -1,7 +1,11 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Link, useLocation } from "react-router-dom";
 
 const Header = () => {
+  const user = useSelector((state) => state?.user);
+
+  console.log("User from store: ", user);
   return (
     <header className="h-16 lg:h-14 lg:shadow-md sticky top-0 z-40 flex justify-center gap-1 bg-blue-400">
       <div className="container mx-auto flex items-center justify-between px-2">
@@ -11,6 +15,7 @@ const Header = () => {
             (Manage your Business effectively)
           </p>
         </div>
+
         <div>
           <Link
             to={"/login"}
