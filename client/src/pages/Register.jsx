@@ -1,18 +1,23 @@
 import React, { useState } from "react";
+import toast from "react-hot-toast";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Axios from "../utils/Axios";
+import SummaryApi from "../common/SummaryApi";
+import AxiosToastError from "../utils/AxiosToastError";
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState({
-    fName: "",
-    lName: "",
+    firstName: "",
+    lastName: "",
     email: "",
     password: "",
     confirmPassword: "",
   });
 
+  const navigate = useNavigate();
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -27,9 +32,32 @@ const Register = () => {
   const validValues = Object.values(data).every((el) => el);
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (data.password !== data.confirmPassword) {
+      toast.error("Password and Confirm password must be same");
+      return;
+    }
+    console.log("Data:", data);
     try {
       setLoading(true);
+      const response = await Axios({
+        ...SummaryApi.register,
+
+        data: data,
+      });
+
+      if (response.data.success) {
+        toast.success(response.data.message);
+      }
+      setData({
+        firstName: "",
+        lastName: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+      });
+      navigate("/login");
     } catch (error) {
+      AxiosToastError(error);
     } finally {
       setLoading(false);
     }
@@ -55,8 +83,8 @@ const Register = () => {
                   id="fname"
                   type="text"
                   className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                  name="fName"
-                  value={data.fName}
+                  name="firstName"
+                  value={data.firstName}
                   onChange={handleChange}
                   placeholder="Enter First Name"
                 />
@@ -71,8 +99,8 @@ const Register = () => {
                 <input
                   type="text"
                   id="lname"
-                  name="lName"
-                  value={data.lName}
+                  name="lastName"
+                  value={data.lastName}
                   onChange={handleChange}
                   placeholder="Enter Last Name"
                   className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
@@ -166,15 +194,6 @@ const Register = () => {
                   Remember me
                 </label>
               </div>
-
-              <div className="text-sm">
-                <Link
-                  to={"#"}
-                  className="font-medium text-indigo-600 hover:text-indigo-500"
-                >
-                  Forgot your password?
-                </Link>
-              </div>
             </div>
 
             <div className="pt-4">
@@ -192,8 +211,8 @@ const Register = () => {
             </div>
           </form>
           <div>
-            <p className="text-sm flex justify-center text-slate-600 ">
-              If you have account?{" "}
+            <p className="text-sm  flex justify-center text-slate-600 ">
+              If you have account? {"  "}
               <Link to={"/login"} className="font-semibold text-red-600">
                 login.
               </Link>

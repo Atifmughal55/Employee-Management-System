@@ -10,7 +10,7 @@ import {
   updateUserDetailsController,
   uploadProfilePicture,
   verifyEmailController,
-  VeryfyForgotPasswordOTP,
+  verifyForgotPasswordOTP,
 } from "../controllers/userController.js";
 import upload from "../middleware/multer.js";
 const userRouter = Router();
@@ -27,7 +27,7 @@ userRouter.put(
 );
 userRouter.put("/update-user", auth, updateUserDetailsController);
 userRouter.put("/forgot-password", forgotPassword);
-userRouter.put("/verify-forgot-password-otp", VeryfyForgotPasswordOTP);
+userRouter.put("/verify-forgot-password-otp", verifyForgotPasswordOTP);
 userRouter.put("/reset-password", resetPassword);
 userRouter.post("/refresh-token", refreshToken);
 export default userRouter;

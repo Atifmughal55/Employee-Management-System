@@ -6,11 +6,9 @@ import Axios from "../utils/Axios";
 import SummaryApi from "../common/SummaryApi";
 import toast from "react-hot-toast";
 
-const Login = () => {
-  const [showPassword, setShowPassword] = useState(false);
+const ForgotPassword = () => {
   const [data, setData] = useState({
     email: "",
-    password: "",
   });
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -33,20 +31,19 @@ const Login = () => {
     try {
       setLoading(true);
       const response = await Axios({
-        ...SummaryApi.login,
+        ...SummaryApi.forgot_password,
         data: data,
       });
 
       if (response.data.success) {
         toast.success(response.data.message);
-        localStorage.setItem("accessToken", response.data.data.accessToken);
-        localStorage.setItem("refreshToken", response.data.data.refreshToken);
+        navigate("/verification-otp", {
+          state: data,
+        });
         setData({
           email: "",
-          password: "",
         });
       }
-      navigate("/");
     } catch (error) {
       AxiosToastError(error);
     } finally {
@@ -58,7 +55,7 @@ const Login = () => {
       <main className="flex-grow flex items-center justify-center py-8 px-4">
         <div className="bg-white shadow-2xl rounded-xl p-10 w-full max-w-md animate-fade-in-up">
           <h2 className="text-3xl font-bold text-center text-blue-400 mb-8">
-            Sign In to Your Account
+            Forgot Password
           </h2>
           <form className="space-y-3" onSubmit={handleSubmit}>
             <div>
@@ -79,58 +76,6 @@ const Login = () => {
               />
             </div>
 
-            <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Password
-              </label>
-              <div className="mt-1 flex items-center w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm bg-white">
-                <input
-                  type={showPassword ? "text" : "password"}
-                  id="password"
-                  name="password"
-                  value={data.password}
-                  onChange={handleChange}
-                  required
-                  className="w-full flex-1 bg-transparent outline-none border-none focus:outline-none focus:border-none"
-                />
-                <div
-                  onClick={() => setShowPassword((prev) => !prev)}
-                  className="ml-2 cursor-pointer text-gray-600 hover:text-indigo-600"
-                >
-                  {showPassword ? <FaRegEye /> : <FaRegEyeSlash />}
-                </div>
-              </div>
-            </div>
-
-            <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <input
-                  id="remember-me"
-                  name="remember-me"
-                  type="checkbox"
-                  className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-                />
-                <label
-                  htmlFor="remember-me"
-                  className="ml-2 block text-sm text-gray-900"
-                >
-                  Remember me
-                </label>
-              </div>
-
-              <div className="text-sm">
-                <Link
-                  to={"/forgot-password"}
-                  className="font-medium text-indigo-600 hover:text-indigo-500"
-                >
-                  Forgot your password?
-                </Link>
-              </div>
-            </div>
-
             <div className="pt-4">
               <button
                 disabled={!validValues || loading}
@@ -141,15 +86,15 @@ const Login = () => {
                     : "bg-teal-500"
                 } w-full flex justify-center py-2 px-4 border border-transparent rounded-lg shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 font-semibold transition`}
               >
-                {loading ? "Loading..." : "Sign In"}
+                {loading ? "Loading..." : "Send OTP"}
               </button>
             </div>
           </form>
           <div>
             <p className="text-sm flex justify-center text-slate-600 pt-4">
-              Don't have account?{" "}
-              <Link to={"/register"} className="font-semibold text-red-600">
-                Register Now.
+              Already have an account?{" "}
+              <Link to={"/login"} className="font-semibold text-red-600">
+                Login.
               </Link>
             </p>
           </div>
@@ -159,4 +104,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ForgotPassword;

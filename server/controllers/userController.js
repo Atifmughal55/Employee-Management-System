@@ -313,7 +313,7 @@ export const forgotPassword = async (req, res) => {
 };
 
 //Verify Forgot Password OTP
-export const VeryfyForgotPasswordOTP = async (req, res) => {
+export const verifyForgotPasswordOTP = async (req, res) => {
   try {
     const { email, otp } = req.body;
 
