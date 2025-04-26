@@ -33,9 +33,23 @@ const userSlice = createSlice({
       state.status = action.payload?.status;
       state.leaveBalance = action.payload?.leaveBalance;
     },
+    logout: (state, action) => {
+      state._id = "";
+      state.firstName = "";
+      state.lastName = "";
+      state.email = "";
+      state.profilePicture = "";
+      state.phone = "";
+      state.verify_email = "";
+      state.last_login_data = "";
+      state.employeeID = "";
+      state.role = "";
+      state.status = "";
+      state.leaveBalance = "";
+    },
   },
 });
 
-export const { setUserDetails } = userSlice.actions;
+export const { setUserDetails, logout } = userSlice.actions;
 
 export default userSlice.reducer;
