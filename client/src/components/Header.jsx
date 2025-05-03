@@ -42,21 +42,21 @@ const Header = () => {
         <div>
           {user?._id ? (
             <div className="flex items-center gap-4">
-              <div className="bg-red-500 p-2 rounded-full h-10 w-10 flex justify-center items-center">
-                {user.profilePicture ? (
-                  <div>
+              <Link to="/dashboard/profile">
+                <div className=" rounded-full h-10 w-10 flex justify-center items-center overflow-hidden">
+                  {user?.profilePicture ? (
                     <img
-                      src={user.profilePicture}
-                      alt="user image"
-                      className="h-full w-full rounded-full object-cover"
+                      src={`${user.profilePicture}?t=${Date.now()}`} // Prevent caching
+                      alt="User"
+                      className="h-full w-full object-cover rounded-full"
                     />
-                  </div>
-                ) : (
-                  <span className="font-semibold text-white text-lg">
-                    {user.firstName?.charAt(0).toUpperCase()}
-                  </span>
-                )}
-              </div>
+                  ) : (
+                    <span className="font-semibold text-white text-lg">
+                      {user?.firstName?.charAt(0).toUpperCase() || "U"}
+                    </span>
+                  )}
+                </div>
+              </Link>
               <button
                 onClick={handleLogout}
                 className="text-slate-100 font-semibold hover:text-slate-200 hover:underline"

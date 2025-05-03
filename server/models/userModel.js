@@ -39,9 +39,20 @@ const userSchema = new mongoose.Schema(
         "Finance",
         "Operations",
       ],
+      default: "Operations",
+    },
+    dob: {
+      type: Date,
+      default: "",
+    },
+    maritalStatus: {
+      type: String,
+      enum: ["Single", "Married"],
+      default: "",
     },
     position: {
       type: String,
+      default: "Junior Operator",
     },
     employeeID: {
       type: String,
@@ -54,25 +65,24 @@ const userSchema = new mongoose.Schema(
     },
     salary: {
       type: Number,
+      default: 0,
     },
     phone: {
       type: String,
+      default: "",
     },
     profilePicture: {
       type: String, // URL or file path
       default: "",
     },
-    leaveBalance: {
-      annual: { type: Number, default: 20 },
-      sick: { type: Number, default: 10 },
-    },
+
     attendance: [
       {
         date: Date,
         status: {
           type: String,
           enum: ["Present", "Absent", "Leave"],
-          default: "Present",
+          default: "Absent",
         },
       },
     ],
@@ -103,21 +113,8 @@ const userSchema = new mongoose.Schema(
       default: null,
     },
     address: {
-      street: {
-        type: String,
-      },
-      city: {
-        type: String,
-      },
-      state: {
-        type: String,
-      },
-      zipCode: {
-        type: String,
-      },
-      country: {
-        type: String,
-      },
+      type: String,
+      default: "",
     },
   },
   {

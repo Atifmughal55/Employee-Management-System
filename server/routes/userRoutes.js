@@ -1,6 +1,7 @@
 import { Router } from "express";
 import auth from "../middleware/auth.js";
 import {
+  deleteUser,
   forgotPassword,
   loginController,
   logoutController,
@@ -32,4 +33,5 @@ userRouter.put("/verify-forgot-password-otp", verifyForgotPasswordOTP);
 userRouter.put("/reset-password", resetPassword);
 userRouter.post("/refresh-token", refreshToken);
 userRouter.get("/user-details", auth, userDetails);
+userRouter.delete("/delete-user/:id", auth, deleteUser);
 export default userRouter;

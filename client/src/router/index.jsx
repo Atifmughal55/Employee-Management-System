@@ -6,6 +6,11 @@ import Register from "../pages/Register";
 import ForgotPassword from "../pages/ForgotPassword";
 import OtpVerificaton from "../pages/OtpVerificaton";
 import ResetPassword from "../pages/ResetPassword";
+import Dashboard from "../layouts/Dashboard";
+import Profile from "../pages/Profile";
+import Task from "../pages/Task";
+import Attendence from "../pages/Attendence";
+import Leaves from "../pages/Leaves";
 
 const router = createBrowserRouter([
   {
@@ -35,6 +40,28 @@ const router = createBrowserRouter([
       {
         path: "reset-password",
         element: <ResetPassword />,
+      },
+      {
+        path: "dashboard",
+        element: <Dashboard />,
+        children: [
+          {
+            path: "profile",
+            element: <Profile />,
+          },
+          {
+            path: "task",
+            element: <Task />,
+          },
+          {
+            path: "attendance",
+            element: <Attendence />,
+          },
+          {
+            path: "leaves",
+            element: <Leaves />,
+          },
+        ],
       },
     ],
   },

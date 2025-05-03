@@ -6,6 +6,7 @@ import connectDB from "./config/connectDB.js";
 import cookieParser from "cookie-parser";
 import helmet from "helmet";
 import userRouter from "./routes/userRoutes.js";
+import taskRouter from "./routes/taskRoutes.js";
 
 const app = express();
 //Middlewares
@@ -27,6 +28,7 @@ app.get("/", (req, res) => {
   res.json({ messsage: "Welcome to my API." });
 });
 app.use("/api/user", userRouter);
+app.use("/api/task", taskRouter);
 const PORT = 8000 || process.env.PORT;
 connectDB().then(() => {
   app.listen(PORT, () => {

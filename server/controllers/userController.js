@@ -236,6 +236,57 @@ export const uploadProfilePicture = async (req, res) => {
   }
 };
 
+//delete user
+export const deleteUser = async (req, res) => {
+  try {
+    const paramsId = req.params.id;
+
+    const userId = req.userId;
+    if (!userId) {
+      return res.status(404).json({
+        message: "You must be logged in",
+        success: false,
+        error: true,
+      });
+    }
+
+    const checkUser = await UserModel.findOne({ userId });
+    if (!checkUser) {
+      return res.status(403).json({
+        message: "User not Found",
+        success: false,
+        error: true,
+      });
+    }
+    if (checkUser.role !== "admin") {
+      return res.status(203).Json({
+        message: "Access denied. Admins only.",
+        success: false,
+        error: true,
+      });
+    }
+
+    const user = await UserModel.findByIdAndDelete(userId);
+
+    if (!user) {
+      return res
+        .status(404)
+        .json({ message: "User Not found", errro: "true", success: "false" });
+    }
+
+    return res.status(200).json({
+      message: "User Deleted Successfully",
+      error: false,
+      success: true,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message || error,
+      success: false,
+      error: true,
+    });
+  }
+};
 //Update user details
 export const updateUserDetailsController = async (req, res) => {
   try {
@@ -258,8 +309,9 @@ export const updateUserDetailsController = async (req, res) => {
 
     return res.status(201).json({
       message: "Updated user successfully",
-      success: false,
-      error: true,
+      data: updateUser,
+      success: true,
+      error: false,
     });
   } catch (error) {
     return res.status(500).json({

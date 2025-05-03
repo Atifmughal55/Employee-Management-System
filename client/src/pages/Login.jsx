@@ -54,7 +54,7 @@ const Login = () => {
           password: "",
         });
       }
-      navigate("/");
+      navigate("/dashboard/profile");
     } catch (error) {
       AxiosToastError(error);
     } finally {
