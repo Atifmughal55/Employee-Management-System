@@ -48,7 +48,6 @@ const userSchema = new mongoose.Schema(
     maritalStatus: {
       type: String,
       enum: ["Single", "Married"],
-      default: "",
     },
     position: {
       type: String,

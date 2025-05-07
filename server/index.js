@@ -7,6 +7,7 @@ import cookieParser from "cookie-parser";
 import helmet from "helmet";
 import userRouter from "./routes/userRoutes.js";
 import taskRouter from "./routes/taskRoutes.js";
+import attendanceRouter from "./routes/attendanceRoute.js";
 
 const app = express();
 //Middlewares
@@ -29,6 +30,7 @@ app.get("/", (req, res) => {
 });
 app.use("/api/user", userRouter);
 app.use("/api/task", taskRouter);
+app.use("/api/attendance", attendanceRouter);
 const PORT = 8000 || process.env.PORT;
 connectDB().then(() => {
   app.listen(PORT, () => {

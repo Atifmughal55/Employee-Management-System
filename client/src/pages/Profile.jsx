@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import userImage from "../assets/user.jpg";
 import { FiEdit } from "react-icons/fi";
 import Axios from "../utils/Axios";
 import SummaryApi from "../common/SummaryApi";
@@ -75,8 +74,7 @@ const Profile = () => {
     e.preventDefault();
     try {
       setLoading(true);
-      console.log("UserData: ", userData);
-      console.log("Date: ", new Date(userData.dob));
+
       const response = await Axios({
         ...SummaryApi.updateUserDetails,
         data: userData,
@@ -97,8 +95,16 @@ const Profile = () => {
     <div className="max-w-4xl mx-auto p-6 bg-white shadow rounded-lg">
       {/* Employee ID */}
       <div className="text-xl font-semibold text-gray-700 mb-4">
-        Employee ID:{" "}
-        <span className="font-bold text-blue-600">{user.employeeID}</span>
+        {user.role === "admin" ? (
+          <span className="font-bold text-blue-600">Administration</span>
+        ) : user.role === "hr" ? (
+          <span className="font-bold text-blue-600">Hr Manager</span>
+        ) : (
+          <>
+            Employee ID:{" "}
+            <span className="font-bold text-blue-600">{user.employeeID}</span>
+          </>
+        )}
       </div>
 
       {/* Profile Picture */}

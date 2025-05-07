@@ -41,6 +41,14 @@ const SummaryApi = {
     url: "/api/user/upload-profile-picture",
     method: "put",
   },
+  getMyTask: {
+    url: "/api/task/my-tasks",
+    method: "get",
+  },
+  updateStatus: {
+    url: "/api/task/update-status",
+    method: "put",
+  },
 };
 
 export default SummaryApi;

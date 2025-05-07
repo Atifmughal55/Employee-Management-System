@@ -128,8 +128,8 @@ export const getMyTask = async (req, res) => {
     return res.status(200).json({
       message: "Fetched your tasks.",
       totalTasks: task.length,
-      success: false,
-      error: true,
+      success: true,
+      error: false,
       data: task,
     });
   } catch (error) {
@@ -208,7 +208,7 @@ export const statusUpdate = async (req, res) => {
   try {
     const userId = req.userId;
     const { id } = req.params;
-    const { status } = req.body;
+    const { status, progressReport } = req.body;
 
     const user = await UserModel.findById(userId);
     if (!user) {
@@ -231,14 +231,13 @@ export const statusUpdate = async (req, res) => {
 
     if (task.assignedTo.toString() !== userId.toString()) {
       return res.status(403).json({
-        message: "You are not allow to update this task",
+        message: "You are not allowed to update this task",
         success: false,
         error: true,
       });
     }
 
     const validStatus = ["Completed", "In Progress", "Pending"];
-
     if (!validStatus.includes(status)) {
       return res.status(400).json({
         message: "Invalid status value",
@@ -248,12 +247,14 @@ export const statusUpdate = async (req, res) => {
     }
 
     task.status = status;
+    task.progressReport = progressReport;
+
     await task.save();
 
     return res.status(200).json({
-      message: "Task status updated successfully",
-      success: false,
-      error: true,
+      message: "Task updated successfully",
+      success: true,
+      error: false,
       data: task,
     });
   } catch (error) {
